@@ -12,7 +12,7 @@ const FormField = ({formdata, change, id}) => {
                         <input
                             {...formdata.config}
                             value={formdata.value}
-                            // onBlur={(event)=>change({event,id,blur:true})}
+                            onBlur={(event)=>change({event,id,blur:true})}
                             onChange={(event)=>change({event,id})}
                         />
                     </div>
