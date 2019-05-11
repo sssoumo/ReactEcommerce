@@ -6,6 +6,7 @@ const MyButton = (props) => {
     return (
         <Button
             href={props.linkTo}
+            onClick={props.functionIn}
             variant="contained"
             size="small"
             {...props.addStyles}

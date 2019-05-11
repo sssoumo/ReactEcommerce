@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 import MyButton from '../../utils/button';
+import { logoutUser } from '../../../actions/user_actions';
 
 class Header extends Component {
 
@@ -42,16 +44,54 @@ class Header extends Component {
         ]
     }
 
-    defaultLink = (item,i) =>(
-      
-            <MyButton
+    logoutHandler = () =>{
+        this.props.dispatch(logoutUser()).then(response =>{
+            if(response.payload.success){
+                    this.props.history.push('/')
+            }
+        })
+    }
+
+    cartLink = (item, i) => {
+        const user = this.props.user.userData;
+        return(
+            <div  key={i}>
+                    <span>{user.cart ? user.cart.length: 0}</span>
+                    <MyButton
             type="default"
             title={item.name}
             linkTo={item.linkTo}
             key={i}
             addStyles={{
-                margin: "10px 0 0 0"
+                display: 'inline-block'
             }}
+           />
+            </div>
+        )
+    }
+ 
+    defaultLink = (item,i) =>(
+        item.name === 'Log out' ? 
+            // <div className="log_out_link"
+            //     key={i}
+            //     onClick={()=>this.logoutHandler()}
+            // >
+            // </div>
+            <MyButton
+            type="default"
+            title="Log Out"
+            functionIn={()=>this.logoutHandler()}
+            key={i}
+            
+            
+        />
+        :
+            <MyButton
+            type="default"
+            title={item.name}
+            linkTo={item.linkTo}
+            key={i}
+            
             
         />
              
@@ -78,8 +118,12 @@ class Header extends Component {
             });
         }
         return list.map((item,i)=>{
-            // console.log(item);
-            return this.defaultLink(item,i)
+           if(item.name !== 'My Cart'){
+               return this.defaultLink(item,i)
+           }else{
+               return this.cartLink(item,i)
+           }
+            
         })
     }
 
@@ -112,4 +156,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(withRouter(Header));
