@@ -3,7 +3,7 @@ import {Switch, Route } from 'react-router-dom';
 
 import Layout from './hoc/layout'
 import Auth from './hoc/auth'
-import Home from './components/Home'
+import Home from './components/Home/index'
 import RegisterLogin from './components/Register_login/index'
 import Register from './components/Register_login/register'
 
